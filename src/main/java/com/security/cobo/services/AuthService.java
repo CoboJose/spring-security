@@ -25,9 +25,13 @@ public class AuthService {
 				.builder()
 				.setId("softtekJWT")
 				.setSubject(user.user())
+				.claim("authorities",
+				grantedAuthorities.stream()
+						.map(GrantedAuthority::getAuthority)
+						.collect(Collectors.toList()))
 				.claim("email", user.email())
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + 3600))
+				.setExpiration(new Date(System.currentTimeMillis() + (3600 * 1000)))
 				.signWith(SignatureAlgorithm.HS256,
 						secretKey.getBytes()).compact();
 

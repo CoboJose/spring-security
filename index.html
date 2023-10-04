@@ -13,7 +13,9 @@
         <input name="password" type="password">
         <button type="submit">Login</button>
     </form>
-    <script>
+    <script type="module">
+        import { set } from 'https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm';
+
         const form = document.forms[0];
         const login = {}
         form.addEventListener('change', (ev) => {
@@ -28,15 +30,26 @@
             const response = await fetch("https://sturdy-space-spoon-4wq7pxr47r6f67w-8080.app.github.dev/login", {
                 method: "POST",
                 headers: {
-                    "content-type": 'application/json'
+                    "content-type": 'application/json',
+                    'Access-Control-Allow-Origin':'*',
+                    'Access-Control-Allow-Methods':'POST,PATCH,OPTIONS'
                 },
                 body: JSON.stringify(login)
 
             })
 
             const data = await response.json()
-            console.log(data)
             const parts = data.token.split('.')
+            const {sub, email} = JSON.parse(atob(parts[1]));
+
+            const user = {
+                user: sub,
+                email
+            }
+
+            await set("user", user);
+            await set("token", data.token);
+            console.log(data.token);
         }
     </script>
 </body>
