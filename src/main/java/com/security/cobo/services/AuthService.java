@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 
-import com.security.cobo.controller.UserController.User;
+import com.security.cobo.services.UserService.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -42,7 +42,7 @@ public class AuthService {
 		return  token;
 	}
 
-	public String refreshToken(String token) {
+	public String refreshExpiredToken(String token) {
 		String user = "";
 		String email = "";
 

@@ -30,6 +30,7 @@ class WebSecurityConfig {
              .requestMatchers(HttpMethod.POST, "/login").permitAll()
              .requestMatchers(HttpMethod.POST, "/logout").permitAll()
              .requestMatchers(HttpMethod.POST, "/refresh").permitAll()
+             .requestMatchers(HttpMethod.POST, "/refresh-expired").permitAll()
              .anyRequest().authenticated()
         )
         .build();   
