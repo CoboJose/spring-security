@@ -1,5 +1,7 @@
 package com.security.cobo.controller;
 
+
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +18,14 @@ public class Controller {
     
     public record Foo(int id, String name) {}
 
+    public Controller() {
+    }
+
     @GetMapping
-    public List<Foo> getFoo() {
+    public List<Foo> getFoo(Principal principal) {
         var res = new ArrayList<Foo>();
+
+        System.out.println(principal.getName());
 
         res.add(new Foo(1, "primer elemento"));
         res.add(new Foo(2, "segundo elemento"));

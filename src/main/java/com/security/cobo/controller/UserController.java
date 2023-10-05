@@ -43,4 +43,17 @@ public class UserController {
 
         return null;
     }
+
+    @PostMapping("/refresh")
+    public Credentials refresh(@RequestBody Credentials credentials) {
+
+        String token = this.authService.refreshToken(credentials.token);
+
+        if (!token.isEmpty()) {
+            return new Credentials(token);
+        }
+
+        return null;
+    }
+
 }

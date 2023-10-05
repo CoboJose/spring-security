@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.security.cobo.controller.UserController.User;
 
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -36,5 +38,16 @@ public class AuthService {
 						secretKey.getBytes()).compact();
 
 		return  token;
+	}
+
+	public String refreshToken(String token) {
+		String secretKey = "mySecretKey";
+
+		Jwts.parser().setSigningKey(secretKey).parse(token);
+		
+		//System.err.println(jwt);
+
+		return "";
+
 	}
 }

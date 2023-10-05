@@ -13,8 +13,14 @@
         <input name="password" type="password">
         <button type="submit">Login</button>
     </form>
+
+    <form>
+        <input type="hidden">
+        <button type="submit">Logout</button>
+    </form>
+
     <script type="module">
-        import { set } from 'https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm';
+        import { set, del } from 'https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm';
 
         const form = document.forms[0];
         const login = {}
@@ -51,6 +57,12 @@
             await set("token", data.token);
             console.log(data.token);
         }
+
+        document.forms[1].addEventListener('submit', async (ev) => {
+            ev.preventDefault();
+            await del("user");
+            await del("token");
+        })
     </script>
 </body>
 
