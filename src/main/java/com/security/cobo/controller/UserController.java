@@ -56,4 +56,9 @@ public class UserController {
         return null;
     }
 
+    @PostMapping("/logout")
+    public void logout(@RequestBody Credentials credentials) {
+
+    }
+
 }

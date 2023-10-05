@@ -10,16 +10,18 @@ import org.springframework.stereotype.Service;
 
 import com.security.cobo.controller.UserController.User;
 
-import io.jsonwebtoken.Jwt;
-import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class AuthService {
+
+	private static final String secretKey = "mySecretKey";
     
     public String getJWTToken(User user) {
-		String secretKey = "mySecretKey";
 		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
 				.commaSeparatedStringToAuthorityList("USER");
 		
@@ -41,13 +43,26 @@ public class AuthService {
 	}
 
 	public String refreshToken(String token) {
-		String secretKey = "mySecretKey";
+		String user = "";
+		String email = "";
 
-		Jwts.parser().setSigningKey(secretKey).parse(token);
-		
-		//System.err.println(jwt);
+		try {
+			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token);
+			user = claims.getBody().get("sub").toString();
+			email = claims.getBody().get("email").toString();
+
+		} catch (ExpiredJwtException expiredJwtException) {
+			Claims claims = expiredJwtException.getClaims();
+			user = claims.get("sub").toString();
+			email = claims.get("email").toString();
+		} catch (Exception e) {
+			System.err.println("Invalid token");
+		}
+
+		if (!user.isEmpty() && !email.isEmpty()) {
+			return this.getJWTToken(new User(user, email, ""));
+		}
 
 		return "";
-
 	}
 }

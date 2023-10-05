@@ -28,6 +28,7 @@ class WebSecurityConfig {
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
         .authorizeHttpRequests(authz -> authz
              .requestMatchers(HttpMethod.POST, "/login").permitAll()
+             .requestMatchers(HttpMethod.POST, "/logout").permitAll()
              .requestMatchers(HttpMethod.POST, "/refresh").permitAll()
              .anyRequest().authenticated()
         )
