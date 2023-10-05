@@ -39,11 +39,10 @@ public class UserService {
             User user = loginUser.get();
             var token = this.authService.getJWTToken(user);
             var refreshToken = UUID.randomUUID().toString();
-            var credentials = new Credentials(token, refreshToken);
         
             sessions.add(new Session(refreshToken, user.user(), user.email()));
 
-            return credentials;
+            return new Credentials(token, refreshToken);
         }
 
         return null;
@@ -64,7 +63,7 @@ public class UserService {
     }
 
     public String refreshExpiredToken(String jwtToken) {
-        return this.authService.refreshToken(jwtToken);
+        return this.authService.refreshExpiredToken(jwtToken);
     }
 
 }
