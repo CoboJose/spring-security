@@ -25,8 +25,9 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public void logout(@RequestBody Credentials credentials) {
+    public String logout(@RequestBody Credentials credentials) {
         this.userService.logout(credentials.refreshToken());
+        return "OK";
     }
 
     @PostMapping("/refresh")

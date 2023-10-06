@@ -25,6 +25,7 @@ class WebSecurityConfig {
         return http
         .csrf(csrf -> csrf.disable())
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+        .logout((logout) -> logout.disable())
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
         .authorizeHttpRequests(authz -> authz
              .requestMatchers(HttpMethod.POST, "/login").permitAll()
